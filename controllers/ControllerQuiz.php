@@ -13,11 +13,12 @@ class ControllerQuiz {
     }
 
     public function getQuizData() {
+        // Utilise la méthode de ModelQuestion pour obtenir toutes les questions
         $questions = $this->modelQuestion->getAllQuestions();
 
         $quizArray = [];
         foreach ($questions as $question) {
-            $reponses = $this->modelReponse->getReponsesByQuestionId($question['idQuestion']);
+            $reponses = $this->modelReponse->getQuestionAnswers($question['idQuestion']);
             
             $quizArray[] = [
                 'id' => $question['idQuestion'],
