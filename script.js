@@ -62,27 +62,30 @@ const quizDisplay = (questionCount) => {
 
 // Checker Function to check if the option is correct or not
 function checker(userOption) {
-    let userSolution = userOption.innerText;
-    let question = document.querySelectorAll(".quiz-question")[questionCount];
-    let options = question.querySelectorAll(".option-div");
+  let userSolution = userOption.innerText;
+  let question = document.querySelectorAll(".quiz-question")[questionCount];
+  let options = question.querySelectorAll(".option-div");
 
-    if (userSolution === question.getAttribute("data-correct")) {
-        userOption.classList.add("correct");
-        scoreCount++;
-    } else {
-        userOption.classList.add("incorrect");
-        options.forEach((element) => {
-            if (element.innerText == question.getAttribute("data-correct")) {
-                element.classList.add("correct");
-            }
-        });
-    }
+  options.forEach((element) => {
+      let isCorrect = element.getAttribute("data-correct") === "1";
+      let isSelected = userSolution === element.innerText;
 
-    clearInterval(countdown);
-    options.forEach((element) => {
-        element.disabled = true;
-    });
+      if (isSelected) {
+          if (isCorrect) {
+              userOption.classList.add("correct");
+              scoreCount++;
+          } else {
+              userOption.classList.add("incorrect");
+              element.classList.add("correct");
+          }
+      }
+
+      element.disabled = true;
+  });
+
+  clearInterval(countdown);
 }
+
 
 // Initial setup
 function initial() {
