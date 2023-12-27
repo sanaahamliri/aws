@@ -13,21 +13,24 @@ class ControllerQuiz {
     }
 
     public function getQuizData() {
-        // Utilise la méthode de ModelQuestion pour obtenir toutes les questions
-        $questions = $this->modelQuestion->getAllQuestions();
-
-        $quizArray = [];
-        foreach ($questions as $question) {
-            $reponses = $this->modelReponse->getQuestionAnswers($question['idQuestion']);
-            
-            $quizArray[] = [
-                'id' => $question['idQuestion'],
-                'question' => $question['enonce_question'],
-                'options' => array_column($reponses, 'enonce_reponse'),
-                'correct' => $reponses[array_search('1', array_column($reponses, 'statut'))]['enonce_reponse'],
-            ];
-        }
-
-        return $quizArray;
-    }
+      $questions = $this->modelQuestion->getAllQuestions();
+  
+      $quizArray = [];
+      foreach ($questions as $question) {
+          $reponses = $this->modelReponse->getReponsesByQuestionId($question['idQuestion']);
+  
+          // Trouver la réponse correcte
+          $correctAnswerIndex = array_search('1', array_column($reponses, 'statut'));
+          $correctAnswer = ($correctAnswerIndex !== false) ? $reponses[$correctAnswerIndex]['enonce_reponse'] : '';
+  
+          $quizArray[] = [
+              'id' => $question['idQuestion'],
+              'question' => $question['enonce_question'],
+              'options' => array_column($reponses, 'enonce_reponse'),
+              'correct' => $correctAnswer,
+          ];
+      }
+  
+      return $quizArray;
+  }
 }

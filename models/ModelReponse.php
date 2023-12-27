@@ -13,17 +13,14 @@ class ModelReponse {
     $newConnection = Database::connectionCheck()->connect();
     $this->pdo = $newConnection;
   }
-
-  public function getQuestionAnswers($idQuestion) {
-    $query = "SELECT * 
-              FROM reponse as a 
-              WHERE a.idQuestion = :idQuestion";
+  public function getReponsesByQuestionId($idQuestion) {
+    $query = "SELECT * FROM reponse WHERE idQuestion = :idQuestion";
     $stmt = $this->pdo->prepare($query);
     $stmt->bindParam(":idQuestion", $idQuestion);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
-  }
+}
 
   // SETTERS
 

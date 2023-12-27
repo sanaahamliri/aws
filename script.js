@@ -1,4 +1,4 @@
-//References
+// References
 let timeLeft = document.querySelector(".time-left");
 let quizContainer = document.getElementById("container");
 let nextBtn = document.getElementById("next-button");
@@ -9,46 +9,37 @@ let restart = document.getElementById("restart");
 let userScore = document.getElementById("user-score");
 let startScreen = document.querySelector(".start-screen");
 let startButton = document.getElementById("start-button");
-let questionCount;
+let questionCount = 0;
 let scoreCount = 0;
-let count = 11;
+let count = 10; // Change to 10 seconds
 let countdown;
 
-//Restart Quiz
+// Restart Quiz
 restart.addEventListener("click", () => {
     initial();
     displayContainer.classList.remove("hide");
     scoreContainer.classList.add("hide");
 });
 
-//Next Button
-nextBtn.addEventListener(
-    "click",
-    (displayNext = () => {
-        //increment questionCount
-        questionCount += 1;
-        //if the last question
-        if (questionCount == document.querySelectorAll(".container-mid").length) {
-            //hide the question container and display the score
-            displayContainer.classList.add("hide");
-            scoreContainer.classList.remove("hide");
-            //user score
-            userScore.innerHTML =
-                "Your score is " + scoreCount + " out of " + questionCount;
-        } else {
-            //display questionCount
-            countOfQuestion.innerHTML =
-                questionCount + 1 + " of " + document.querySelectorAll(".container-mid").length + " Question";
-            //display quiz
-            quizDisplay(questionCount);
-            count = 11;
-            clearInterval(countdown);
-            timerDisplay();
-        }
-    })
-);
+// Next Button
+nextBtn.addEventListener("click", () => {
+    questionCount += 1;
+    if (questionCount == document.querySelectorAll(".quiz-question").length) {
+        displayContainer.classList.add("hide");
+        scoreContainer.classList.remove("hide");
+        userScore.innerHTML =
+            "Your score is " + scoreCount + " out of " + questionCount;
+    } else {
+        countOfQuestion.innerHTML =
+            questionCount + 1 + " of " + document.querySelectorAll(".quiz-question").length + " questions";
+        quizDisplay(questionCount);
+        count = 10; // Reset the countdown
+        clearInterval(countdown);
+        timerDisplay();
+    }
+});
 
-//Timer
+// Timer
 const timerDisplay = () => {
     countdown = setInterval(() => {
         count--;
@@ -60,65 +51,57 @@ const timerDisplay = () => {
     }, 1000);
 };
 
-//Display quiz
+// Display quiz
 const quizDisplay = (questionCount) => {
-    let quizCards = document.querySelectorAll(".container-mid");
-    //Hide other cards
-    quizCards.forEach((card) => {
-        card.classList.add("hide");
+    let quizQuestions = document.querySelectorAll(".quiz-question");
+    quizQuestions.forEach((question) => {
+        question.classList.add("hide");
     });
-    //display the current question card
-    quizCards[questionCount].classList.remove("hide");
+    quizQuestions[questionCount].classList.remove("hide");
 };
 
-//Checker Function to check if the option is correct or not
+// Checker Function to check if the option is correct or not
 function checker(userOption) {
     let userSolution = userOption.innerText;
-    let question =
-        document.getElementsByClassName("container-mid")[questionCount];
+    let question = document.querySelectorAll(".quiz-question")[questionCount];
     let options = question.querySelectorAll(".option-div");
 
-    //if the user clicked answer == correct option stored in object
-    if (userSolution === document.querySelectorAll(".container-mid")[questionCount].getAttribute("data-correct")) {
+    if (userSolution === question.getAttribute("data-correct")) {
         userOption.classList.add("correct");
         scoreCount++;
     } else {
         userOption.classList.add("incorrect");
-        //For marking the correct option
         options.forEach((element) => {
-            if (element.innerText == document.querySelectorAll(".container-mid")[questionCount].getAttribute("data-correct")) {
+            if (element.innerText == question.getAttribute("data-correct")) {
                 element.classList.add("correct");
             }
         });
     }
 
-    //clear interval(stop timer)
     clearInterval(countdown);
-    //disable all options
     options.forEach((element) => {
         element.disabled = true;
     });
 }
 
-//initial setup
+// Initial setup
 function initial() {
-    quizContainer.innerHTML = "";
     questionCount = 0;
     scoreCount = 0;
-    count = 11;
+    count = 10;
     clearInterval(countdown);
     timerDisplay();
     quizDisplay(questionCount);
 }
 
-//when the user clicks on the start button
+// When the user clicks on the start button
 startButton.addEventListener("click", () => {
     startScreen.classList.add("hide");
     displayContainer.classList.remove("hide");
     initial();
 });
 
-//hide the quiz and display the start screen
+// Hide the quiz and display the start screen
 window.onload = () => {
     startScreen.classList.remove("hide");
     displayContainer.classList.add("hide");
