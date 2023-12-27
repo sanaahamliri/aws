@@ -61,7 +61,6 @@
                 left: 50%;
             }
         }
-
         #box2 {
             width: auto;
             height: auto;
@@ -207,8 +206,8 @@
                 Let's Get Started
                 <div class="form__group field">
                     <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
-                    <label for="name" class="form__label">Set a PseudoName</label>
-                    <a href="./pages/home.php"><button class="bttn">let's keep going!</button></a>
+                    <label for="name" class="form__label">Set a PseudoName</label>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                    <a href="./views/quiz.php"><button class="bttn">let's keep going!</button></a>
                 </div>
             </div>
 
@@ -224,4 +223,4 @@
     </div>
 </body>
 
-</html>
+</html>                                                                                                                                                                                                                                                                                                                                     
